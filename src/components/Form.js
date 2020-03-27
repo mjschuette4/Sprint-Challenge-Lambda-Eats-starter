@@ -4,24 +4,33 @@ import axios from "axios";
 
 const formSchema = yup.object().shape({
     name: yup.string().required("Name is a required field"),
-    email: yup.string().email().required("An Email is required"),
-    role: yup.string(),
-    password: yup.string().required("A password is required"),
-    terms: yup.boolean().oneOf([true], "Please agree to the terms of service")
+    size: yup.string(),
+    ham: yup.boolean().defined(),
+    onions: yup.boolean().defined(),
+    pepperoni: yup.boolean().defined(),
+    sausage: yup.boolean().defined(),
+    specialReq: yup.string().notRequired()
 });
 
 export default function Form() {
     const [formState, setFormState] = useState({
         name: "",
-        email: "",
-        role: "",
-        password: ""
+        size: "",
+        pepperoni: false,
+        ham: false,
+        onions: false,
+        sausage: false,
+        specialReq: ""
+
     });
     const [errors, setErrors] = useState({
         name: "",
-        email: "",
-        role: "",
-        password: ""
+        size: "",
+        pepperoni: "",
+        ham: "",
+        onions: "",
+        sausage: "",
+        specialReq: ""
     });
     const [buttonDisabled, setButtonDisabled] = useState(true);
 
@@ -60,9 +69,12 @@ export default function Form() {
 
                 setFormState({
                     name: "",
-                    email: "",
-                    role: "",
-                    password: ""
+                    size: "",
+                    pepperoni: false,
+                    ham: false,
+                    onions: false,
+                    sausage: false,
+                    specReq: ""
                 });
             })
             .catch(error => {
@@ -100,55 +112,74 @@ export default function Form() {
                 <p classname="error">{errors.name}</p> : null}
             </label>
             <br></br>
-            <label htmlFor="email">
-                Email
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={formState.email}
-                    onChange={inputChange}
-                />
-                {errors.email.length > 0 ? 
-                <p classname="error">{errors.email}</p> : null}
-            </label>
-            <br></br>
-            <label htmlFor="role">
-                Role 
-                <select id="role" name="role" onChange={inputChange}>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Human Resources">Human Resources</option>
-                    <option value="Chief Meme Officer">Chief Meme Officer</option>
-                    <option value="Corporate Snack Delivery Boi">Corporate Snack Delivery Boi</option>
-                    <option value="Useless Heathen">Useless Heathen</option>
+            <label htmlFor="size">
+                Size 
+                <select id="size" name="size" onChange={inputChange}>
+                    <option value="Extra Small">Extra Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                    <option value="Extra Large">Extra Large</option>
+                    <option value="Belly Buster">Belly Buster</option>
                 </select>
             </label>
             <br></br>
-            <label htmlFor="password">
-                Password
-                <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    value={formState.password}
-                    onChange={inputChange}
-                />
-                {errors.password.length > 0 ? 
-                <p classname="error">{errors.password}</p> : null}
-            </label>
-            <br></br>
-            <label htmlFor="terms">
-                Terms of Service
+            <label htmlFor="ham">
+                Ham
                 <input
                     type="checkbox"
-                    name="terms"
-                    checked={formState.terms}
+                    name="ham"
+                    id="hamBox"
+                    checked={formState.ham}
+                    onChange={inputChange}
+                /> 
+            </label>
+            <br></br>
+                <label htmlFor="onions">
+                Onions
+                <input
+                    type="checkbox"
+                    name="onions"
+                    id="onionBox"
+                    checked={formState.onions}
+                    onChange={inputChange}
+                />
+                </label> 
+                <br></br>
+            <label htmlFor="pepperoni">
+                Pepperoni
+                <input
+                    type="checkbox"
+                    name="pepperoni"
+                    id="pepperoniBox"
+                    checked={formState.pepperoni}
+                    onChange={inputChange}
+                /> 
+            </label>
+            <br></br>
+            <label htmlFor="sausage">
+                Sausage
+                <input
+                    type="checkbox"
+                    name="sausage"
+                    id="sausageBox"
+                    checked={formState.sausage}
                     onChange={inputChange}
                 />    
             </label>
             <br></br>
+            <label htmlFor = 'specialReq'>
+                Special Request?
+                <br/>
+                <textarea
+                name = 'specialReq'
+                id = 'specialReqInput'
+                placeholder = 'Type Special Request here...'
+                value={formState.specialReq} 
+                onChange={inputChange}
+                />
+            </label>
             <pre>{JSON.stringify(user, null, 2)}</pre>
-            <button disabled={buttonDisabled}>Submit</button>
+            <button disabled={buttonDisabled}>Order</button>
         </form>
-        );
+        ); 
 }
