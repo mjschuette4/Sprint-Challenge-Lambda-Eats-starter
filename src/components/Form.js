@@ -3,7 +3,9 @@ import * as yup from "yup";
 import axios from "axios";
 
 const formSchema = yup.object().shape({
-    name: yup.string().required("Name must be at least 2 characters"),
+    name: yup.string()
+            .test('len', 'Must be at least 2 characters', val => val.length >= 2)
+            .required(),
     size: yup.string(),
     ham: yup.boolean().defined(),
     onions: yup.boolean().defined(),
@@ -174,7 +176,7 @@ export default function Form() {
                 />
             </label>
             <pre>{JSON.stringify(user, null, 2)}</pre>
-            <button disabled={buttonDisabled}>Order</button>
+            <button disabled={buttonDisabled} name="order">Order</button>
         </form>
         ); 
 }
